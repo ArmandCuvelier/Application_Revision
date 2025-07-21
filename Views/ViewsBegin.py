@@ -25,9 +25,11 @@ class ViewsBegin(QWidget):
         self.LLeave = QHBoxLayout()
         
         # Layout of the Title
-        self.Title = QLabel("Application de Révision")
-        self.Title.setStyleSheet("font-size :50px;")
-        self.LTitle.addWidget(self.Title,alignment=Qt.AlignmentFlag.AlignCenter)
+        self.title = QLabel("Course Review Application")
+        self.title.setStyleSheet("""
+            font-size :50px;
+        """)
+        self.LTitle.addWidget(self.title,alignment=Qt.AlignmentFlag.AlignCenter)
         
         # Layout of the actions
         self.LActions.setSpacing(0)
@@ -54,20 +56,24 @@ class ViewsBegin(QWidget):
 
         # Finalisation of the initialisation
         self.setLayout(self.MainLayout)
-        self.setStyleSheet("font-family : Open Sans	;background-color : #dceefc;color : black;")
+        self.setStyleSheet("""
+                font-family : Open Sans	;
+                background-color : #5f90b9;
+                color : black;
+            """)
         
     # Style of the button of the layout of actions
     def button_style_actions(self):
         return """
             QPushButton {
-                background-color: #2196F3;
+                background-color: #e5f3ff;
                 border-radius: 7px;
                 font-size: 20px;
                 width : 200px;
                 height : 50px;
             }
             QPushButton:hover {
-                background-color: #1976D2;
+                background-color: #b0b8bf;
             }
         """
     # Style of the button leave
