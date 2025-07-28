@@ -59,12 +59,12 @@ class Controller:
     def save_json(self):
         if not self.save_question():
             return
-        nom_cours = self.Views_Creation.name_course.text().strip()
-        if not nom_cours:
+        name = self.Views_Creation.name_course.text().strip()
+        if not name:
             QMessageBox.warning(self.Views_Creation, "Error", "The name of the course is empty")
             return
         data = {
-            "name": nom_cours,
+            "name": name,
             "questions": self.questions
         }
         name = data["name"] + ".json"

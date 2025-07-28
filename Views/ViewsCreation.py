@@ -10,6 +10,9 @@ class ViewsCreation(QWidget):
     def __init__(self):
         super().__init__()
         
+        # Variable who contains the number of question of the course
+        self.nb_questions = 0
+        
         # View settings
         self.setWindowTitle("Application de Révision - Creation of a course")
         self.resize(1000, 500)
@@ -63,7 +66,7 @@ class ViewsCreation(QWidget):
                 color: #CCCCCC;
             }
         """)
-        self.nb_question = QLabel("Questions")
+        self.nb_question = QLabel(str(self.nb_questions)+" Question")
         self.nb_question.setMinimumSize(150, 50)
         self.nb_question.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.nb_question.setStyleSheet("""
@@ -148,7 +151,8 @@ class ViewsCreation(QWidget):
                 background-color: #b0b8bf;
             }
         """
-        
+    
+    # Add a question with the prompt and the answer if the precedent question(s) aren't empty
     def addQuestions(self):
         for i in range(self.questions_layout.count()):
             widget = self.questions_layout.itemAt(i).widget()
@@ -160,6 +164,8 @@ class ViewsCreation(QWidget):
                     return
         question_widget = WidgetQuestions()
         self.questions_layout.addWidget(question_widget)
+        self.nb_questions+=1
+        self.nb_question.setText(str(self.nb_questions)+" Question")
 
 
 # Tests
