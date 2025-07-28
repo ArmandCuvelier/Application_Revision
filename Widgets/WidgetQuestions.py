@@ -11,7 +11,6 @@ class WidgetQuestions(QWidget):
         super().__init__()
         
         # Widget settings
-        self.resize(800,350)
         self.MainLayout = QVBoxLayout()
         
         # Widget of the question

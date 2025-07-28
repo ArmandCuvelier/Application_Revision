@@ -1,6 +1,7 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QListWidget, QLabel, QMessageBox, QInputDialog, QTextEdit
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QListWidget, QLabel, QMessageBox, QInputDialog, QTextEdit, QScrollArea, QSizePolicy
 from PyQt6.QtCore import Qt
+from Widgets.WidgetQuestions import WidgetQuestions
 
 """
 This views is the interface who allows the user to create a course and his questions in order to save it.
@@ -79,10 +80,19 @@ class ViewsCreation(QWidget):
         self.Lheader_course.addStretch(0)
         self.Lheader_course.addWidget(self.nb_question)
         
-        # Information of the questions
+        # Information of the questions (questions_scroll is a scroll area for the WidgetQuestions)
         self.Lmain_course = QVBoxLayout()
+        self.questions_scroll = QScrollArea()
+        self.questions_scroll.setWidgetResizable(True)
+        self.questions_scroll.setFixedHeight(250)
+        self.questions_scroll.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        self.questions_container = QWidget()
+        self.questions_layout = QVBoxLayout(self.questions_container)
+        self.questions_scroll.setWidget(self.questions_container)
         self.add = QPushButton("Add a question")
         self.add.setStyleSheet(self.button_style_actions())
+        self.add.clicked.connect(lambda : self.addQuestions())
+        self.Lmain_course.addWidget(self.questions_scroll)
         self.Lmain_course.addWidget(self.add, alignment=Qt.AlignmentFlag.AlignCenter)
         
         # Assembly of the layout about the course
@@ -129,6 +139,7 @@ class ViewsCreation(QWidget):
                 border-radius: 7px;
                 margin-left: 30px;
                 margin-right: 30px;
+                margin-bottom : 30px;
                 font-size: 20px;
                 min-width: 200px;
                 height: 40px;
@@ -138,6 +149,19 @@ class ViewsCreation(QWidget):
             }
         """
         
+    def addQuestions(self):
+        for i in range(self.questions_layout.count()):
+            widget = self.questions_layout.itemAt(i).widget()
+            if isinstance(widget, WidgetQuestions):
+                prompt = widget.question.toPlainText().strip()
+                answer = widget.answer.toPlainText().strip()
+                if not prompt or not answer:
+                    QMessageBox.warning(self,"Error","There are one or multiply empty question")
+                    return
+        question_widget = WidgetQuestions()
+        self.questions_layout.addWidget(question_widget)
+
+
 # Tests
 if __name__ == "__main__":
     app = QApplication(sys.argv)
