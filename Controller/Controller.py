@@ -67,7 +67,7 @@ class Controller:
             "name": name,
             "questions": self.questions
         }
-        name = data["name"] + ".json"
+        name = "Datas/"+data["name"] + ".json"
         try:
             with open(name, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
