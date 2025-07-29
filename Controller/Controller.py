@@ -1,10 +1,9 @@
 import sys
 import json
 import os
-from PyQt6.QtWidgets import QApplication, QWidget, QMessageBox
+from PyQt6.QtWidgets import QApplication, QWidget, QMessageBox, QFileDialog
 from Views.ViewsBegin import ViewsBegin
 from Views.ViewsCreation import ViewsCreation
-from Objects.Question import Question
 from Widgets.WidgetQuestions import WidgetQuestions
 
 """
@@ -16,16 +15,21 @@ class Controller:
         # Initialisation of the views
         self.Views_Begin = ViewsBegin()
         self.Views_Creation = ViewsCreation()
+        self.Views_Modification = ViewsCreation()
         
         # Initialisation of a list who contains the question/answers
         self.questions = []
         
         # Signal of the views Begin
         self.Views_Begin.create.clicked.connect(lambda : self.navigate(self.Views_Creation))
+        self.Views_Begin.modify.clicked.connect(lambda : self.ouverture())
         
         # Signal of the wiews Creation
         self.Views_Creation.back.clicked.connect(lambda: self.comeback(self.Views_Creation))
         self.Views_Creation.save.clicked.connect(lambda: self.save_json())
+        
+        # Signal of the views Modification
+        
         
         # Execution
         self.Views_Begin.show()
@@ -41,7 +45,7 @@ class Controller:
         self.questions.clear()
         self.Views_Begin.show()
     
-    # Save the informations of the question into a list if the questions aren't empty
+    # Function who save the informations of the question into a list if the questions aren't empty
     def save_question(self):
         self.questions = []
         for i in range(self.Views_Creation.questions_layout.count()):
@@ -74,7 +78,23 @@ class Controller:
             QMessageBox.information(self.Views_Creation, "Success", "The course is save")
         except Exception as e:
             QMessageBox.warning(self.Views_Creation, "Error", "Error in the save")
-        
+            
+    # Function who open a course with a json file into a view
+    def ouverture(self):
+        self.questions.clear()
+        try:
+            filename, _ = QFileDialog.getOpenFileName(self.Views_Begin,"Open a json file","","File JSON (*.json)")
+            with open(filename, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception as e:
+            QMessageBox.warning(self.Views_Creation, "Error", "Error in the opening")
+        self.navigate(self.Views_Modification)
+        self.Views_Modification.name_course.setText(data["name"])
+        self.questions = data["questions"]
+        self.Views_Modification.nb_question.setText(str(len(self.questions))+" Question")
+        for i in range(len(self.questions)):
+            self.Views_Modification.addQuestions_completed(self.questions[i])
+            
 # Tests        
 if __name__ == "__main__":
     app = QApplication(sys.argv)

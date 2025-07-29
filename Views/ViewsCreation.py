@@ -152,7 +152,7 @@ class ViewsCreation(QWidget):
             }
         """
     
-    # Add a question with the prompt and the answer if the precedent question(s) aren't empty
+    # Add a question with the prompt and the answer if the precedent question isn't empty
     def addQuestions(self):
         for i in range(self.questions_layout.count()):
             widget = self.questions_layout.itemAt(i).widget()
@@ -163,6 +163,23 @@ class ViewsCreation(QWidget):
                     QMessageBox.warning(self,"Error","There are one or multiply empty question")
                     return
         question_widget = WidgetQuestions()
+        self.questions_layout.addWidget(question_widget)
+        self.nb_questions+=1
+        self.nb_question.setText(str(self.nb_questions)+" Question")
+        
+    # Add a question with the prompt and the answer (completed with the texts in parameters) if the precedent questions isn't empty
+    def addQuestions_completed(self,dico : dict):
+        for i in range(self.questions_layout.count()):
+            widget = self.questions_layout.itemAt(i).widget()
+            if isinstance(widget, WidgetQuestions):
+                prompt = widget.question.toPlainText().strip()
+                answer = widget.answer.toPlainText().strip()
+                if not prompt or not answer:
+                    QMessageBox.warning(self,"Error","There are one or multiply empty question")
+                    return
+        question_widget = WidgetQuestions()
+        question_widget.question.setText(dico["prompt"])
+        question_widget.answer.setText(dico["answer"])
         self.questions_layout.addWidget(question_widget)
         self.nb_questions+=1
         self.nb_question.setText(str(self.nb_questions)+" Question")
