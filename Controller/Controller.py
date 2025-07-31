@@ -26,10 +26,11 @@ class Controller:
         
         # Signal of the wiews Creation
         self.Views_Creation.back.clicked.connect(lambda: self.comeback(self.Views_Creation))
-        self.Views_Creation.save.clicked.connect(lambda: self.save_json())
+        self.Views_Creation.save.clicked.connect(lambda: self.save_json(self.Views_Creation))
         
         # Signal of the views Modification
-        
+        self.Views_Modification.back.clicked.connect(lambda: self.comeback(self.Views_Modification))
+        self.Views_Modification.save.clicked.connect(lambda: self.save_json(self.Views_Modification))
         
         # Execution
         self.Views_Begin.show()
@@ -46,26 +47,26 @@ class Controller:
         self.Views_Begin.show()
     
     # Function who save the informations of the question into a list if the questions aren't empty
-    def save_question(self):
+    def save_question(self,Views : ViewsCreation):
         self.questions = []
-        for i in range(self.Views_Creation.questions_layout.count()):
-            widget = self.Views_Creation.questions_layout.itemAt(i).widget()
+        for i in range(Views.questions_layout.count()):
+            widget = Views.questions_layout.itemAt(i).widget()
             if isinstance(widget, WidgetQuestions):
                 prompt = widget.question.toPlainText().strip()
                 answer = widget.answer.toPlainText().strip()
                 if not prompt or not answer:
-                    QMessageBox.warning(self.Views_Creation,"Error","Empty question(s)")
+                    QMessageBox.warning(Views,"Error","Empty question(s)")
                     return False
                 self.questions.append({"prompt": prompt, "answer": answer})
         return True
     
     # Function who save the course into a json. She verify if the form isn't empty
-    def save_json(self):
-        if not self.save_question():
+    def save_json(self,Views : ViewsCreation):
+        if not self.save_question(Views):
             return
-        name = self.Views_Creation.name_course.text().strip()
+        name = Views.name_course.text().strip()
         if not name:
-            QMessageBox.warning(self.Views_Creation, "Error", "The name of the course is empty")
+            QMessageBox.warning(Views, "Error", "The name of the course is empty")
             return
         data = {
             "name": name,
@@ -75,9 +76,9 @@ class Controller:
         try:
             with open(name, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
-            QMessageBox.information(self.Views_Creation, "Success", "The course is save")
+            QMessageBox.information(Views, "Success", "The course is save")
         except Exception as e:
-            QMessageBox.warning(self.Views_Creation, "Error", "Error in the save")
+            QMessageBox.warning(Views, "Error", "Error in the save")
             
     # Function who open a course with a json file into a view
     def ouverture(self):
@@ -91,7 +92,10 @@ class Controller:
         self.navigate(self.Views_Modification)
         self.Views_Modification.name_course.setText(data["name"])
         self.questions = data["questions"]
-        self.Views_Modification.nb_question.setText(str(len(self.questions))+" Question")
+        if len(self.questions)>=2:
+            self.Views_Modification.nb_question.setText(str(len(self.questions))+" Questions")
+        else :
+            self.Views_Modification.nb_question.setText(str(len(self.questions))+" Questions")
         for i in range(len(self.questions)):
             self.Views_Modification.addQuestions_completed(self.questions[i])
             

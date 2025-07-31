@@ -165,7 +165,12 @@ class ViewsCreation(QWidget):
         question_widget = WidgetQuestions(self.remove_questions)
         self.questions_layout.addWidget(question_widget)
         self.nb_questions+=1
-        self.nb_question.setText(str(self.nb_questions)+" Question")
+        if self.nb_questions == 0:
+            self.nb_question.setText("0 Question")
+        elif self.nb_questions == 1:
+            self.nb_question.setText("1 Question")
+        else:
+            self.nb_question.setText(str(self.nb_questions) + " Questions")
         
     # Add a question with the prompt and the answer (completed with the texts in parameters) if the precedent questions isn't empty
     def addQuestions_completed(self,dico : dict):
@@ -182,13 +187,25 @@ class ViewsCreation(QWidget):
         question_widget.answer.setText(dico["answer"])
         self.questions_layout.addWidget(question_widget)
         self.nb_questions+=1
-        self.nb_question.setText(str(self.nb_questions)+" Question")
+        if self.nb_questions == 0:
+            self.nb_question.setText("0 Question")
+        elif self.nb_questions == 1:
+            self.nb_question.setText("1 Question")
+        else:
+            self.nb_question.setText(str(self.nb_questions) + " Questions")
         
     # Function who remove a question
     def remove_questions(self,question : WidgetQuestions):
         self.questions_layout.removeWidget(question)
         question.setParent(None)
-        question.deleteLater()  
+        question.deleteLater()
+        self.nb_questions-=1
+        if self.nb_questions == 0:
+            self.nb_question.setText("0 Question")
+        elif self.nb_questions == 1:
+            self.nb_question.setText("1 Question")
+        else:
+            self.nb_question.setText(str(self.nb_questions) + " Questions")
 
 # Tests
 if __name__ == "__main__":
