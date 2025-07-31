@@ -7,7 +7,7 @@ This widget allows to contain a question and an answer.
 It can be add once or multiply in the ViewsCreation and ViewsModification
 """
 class WidgetQuestions(QWidget):
-    def __init__(self):
+    def __init__(self,remove_fonction):
         super().__init__()
         
         # Widget settings
@@ -33,9 +33,15 @@ class WidgetQuestions(QWidget):
             border-radius : 8px;
         """)
         
+        # Widget of the remove button
+        self.remove = QPushButton("Remove")
+        self.remove.setStyleSheet(self.button_style_actions())
+        self.remove.clicked.connect(lambda: remove_fonction(self))
+        
         # Assembly in the Main layout
         self.MainLayout.addWidget(self.question)
         self.MainLayout.addWidget(self.answer)
+        self.MainLayout.addWidget(self.remove)
 
         # Finalisation of the initialisation
         self.setLayout(self.MainLayout)
@@ -43,6 +49,21 @@ class WidgetQuestions(QWidget):
             font-family : Open Sans	;
             background-color : #bdb7b7;
         """)
+        
+    # Style of the button of the layout of actions
+    def button_style_actions(self):
+        return """
+            QPushButton {
+                background-color: #e5f3ff;
+                border-radius: 5px;
+                font-size: 20px;
+                width : 20px;
+                height : 50px;
+            }
+            QPushButton:hover {
+                background-color: #b0b8bf;
+            }
+        """
         
 # Tests
 if __name__ == "__main__":

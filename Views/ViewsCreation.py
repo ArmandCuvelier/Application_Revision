@@ -162,7 +162,7 @@ class ViewsCreation(QWidget):
                 if not prompt or not answer:
                     QMessageBox.warning(self,"Error","There are one or multiply empty question")
                     return
-        question_widget = WidgetQuestions()
+        question_widget = WidgetQuestions(self.remove_questions)
         self.questions_layout.addWidget(question_widget)
         self.nb_questions+=1
         self.nb_question.setText(str(self.nb_questions)+" Question")
@@ -177,13 +177,18 @@ class ViewsCreation(QWidget):
                 if not prompt or not answer:
                     QMessageBox.warning(self,"Error","There are one or multiply empty question")
                     return
-        question_widget = WidgetQuestions()
+        question_widget = WidgetQuestions(self.remove_questions)
         question_widget.question.setText(dico["prompt"])
         question_widget.answer.setText(dico["answer"])
         self.questions_layout.addWidget(question_widget)
         self.nb_questions+=1
         self.nb_question.setText(str(self.nb_questions)+" Question")
-
+        
+    # Function who remove a question
+    def remove_questions(self,question : WidgetQuestions):
+        self.questions_layout.removeWidget(question)
+        question.setParent(None)
+        question.deleteLater()  
 
 # Tests
 if __name__ == "__main__":
