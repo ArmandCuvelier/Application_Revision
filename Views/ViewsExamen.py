@@ -32,13 +32,12 @@ class ViewsExamen(QWidget):
         # Widget of the Trainings
         self.WTraining.setStyleSheet(self.style_widget_test())
         self.LTraining = QVBoxLayout()
-        self.title_course = QLabel()
         self.prompt = QLabel()
+        self.prompt.setStyleSheet(self.style_prompt())
         self.answer = QLineEdit()
+        self.answer.setStyleSheet(self.style_answer())
         self.next = QPushButton("Next Question")
         self.next.setStyleSheet(self.button_style())
-        self.LTraining.addWidget(self.title_course,3)
-        self.LTraining.addStretch(1)
         self.LTraining.addWidget(self.prompt,5)
         self.LTraining.addStretch(1)
         self.LTraining.addWidget(self.answer,7)
@@ -52,12 +51,15 @@ class ViewsExamen(QWidget):
         self.WResults.setStyleSheet(self.style_widget_test())
         self.LResults = QVBoxLayout()
         self.title_course = QLabel()
+        self.title_course.setStyleSheet(self.style_title())
+        self.title_course.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.score = QLabel()
+        self.score.setStyleSheet(self.style_results())
+        self.score.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.finish = QPushButton("Finish the course")
         self.finish.setStyleSheet(self.button_style())
         self.LResults.addStretch(1)
         self.LResults.addWidget(self.title_course,2)
-        self.LResults.addStretch(1)
         self.LResults.addWidget(self.score,8)
         self.LResults.addStretch(1)
         self.LResults.addWidget(self.finish,4)
@@ -98,6 +100,50 @@ class ViewsExamen(QWidget):
         QWidget {
             color : #000000;
             font-size : 30px;
+        }
+    """
+    def style_prompt(self):
+        return """
+        QLabel{
+            background-color : #e5f3ff;
+            color : #000000;
+            font-size : 30px;
+            font-weight : bold;
+            margin : 30px 100px 0 100px;
+        }
+    """
+    
+    def style_answer(self):
+        return """
+        QLineEdit{
+            background-color : #e5f3ff;
+            border : 1px solid black;
+            border-radius : 10px;
+            color : #000000;
+            font-size : 40px;
+            height : 50px;
+            margin : 0 100px 0 100px;
+        }
+    """
+    
+    def style_title(self):
+        return """
+        QLabel{
+            background-color : #e5f3ff;
+            color : #000000;
+            font-size : 30px;
+            font-weight : bold;
+            margin : 30px 100px 0 100px;
+        }
+    """
+    
+    def style_results(self):
+        return """
+        QLabel{
+            background-color : #e5f3ff;
+            color : #000000;
+            font-size : 20px;
+            margin : 30px 100px 0 100px;
         }
     """
     

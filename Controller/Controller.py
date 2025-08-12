@@ -150,7 +150,7 @@ class Controller:
         for i in range(len(self.questions)):
             if self.questions[i]["answer"]==self.answers_questions[i] :
                 results +=1
-        self.Views_Examen.score.setText(str(results)+"/"+str(len(self.questions)))
+        self.Views_Examen.score.setText("Your score is " + str(results)+"/"+str(len(self.questions)))
 
 # Tests        
 if __name__ == "__main__":
