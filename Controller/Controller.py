@@ -2,6 +2,7 @@ import sys
 import json
 import os
 from PyQt6.QtWidgets import QApplication, QWidget, QMessageBox, QFileDialog
+from PyQt6.QtGui import QIcon
 from Views.ViewsBegin import ViewsBegin
 from Views.ViewsCreation import ViewsCreation
 from Views.ViewsExamen import ViewsExamen
@@ -12,12 +13,24 @@ This controller connect the Views and the course
 """
 
 class Controller:
-    def __init__(self):
+    def __init__(self, version : float, logo : str):
         # Initialisation of the views
         self.Views_Begin = ViewsBegin()
         self.Views_Creation = ViewsCreation()
         self.Views_Modification = ViewsCreation()
         self.Views_Examen = ViewsExamen()
+        
+        # Initialisation of the name of the views
+        self.Views_Begin.setWindowTitle("Revision Application - Home - Version " + str(version))
+        self.Views_Creation.setWindowTitle("Revision Application - Creation - Version " + str(version))
+        self.Views_Modification.setWindowTitle("Revision Application - Modification - Version " + str(version))
+        self.Views_Examen.setWindowTitle("Revision Application - Training - Version " + str(version))
+        
+        # Initialisation of the logo of the views
+        self.Views_Begin.setWindowIcon(QIcon(logo))
+        self.Views_Creation.setWindowIcon(QIcon(logo))
+        self.Views_Modification.setWindowIcon(QIcon(logo))
+        self.Views_Examen.setWindowIcon(QIcon(logo))
         
         # Initialisation of a list who contains the question/answers
         self.questions = []

@@ -14,7 +14,6 @@ class ViewsCreation(QWidget):
         self.nb_questions = 0
         
         # View settings
-        self.setWindowTitle("Application de Révision - Creation and Modification of a course")
         self.resize(1000, 500)
         self.MainLayout = QVBoxLayout()
         self.MainLayout.setContentsMargins(0, 0, 0, 0)

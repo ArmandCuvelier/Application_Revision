@@ -15,7 +15,6 @@ class ViewsBegin(QWidget):
         super().__init__()
         
         # View settings
-        self.setWindowTitle("Application de Révision - Home")
         self.resize(1000, 500)
         self.MainLayout = QVBoxLayout()
         

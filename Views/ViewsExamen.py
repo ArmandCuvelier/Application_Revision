@@ -10,7 +10,6 @@ class ViewsExamen(QWidget):
         super().__init__()
         
         # View settings
-        self.setWindowTitle("Application de Révision - Training")
         self.resize(1000, 500)
         self.MainLayout = QVBoxLayout()
         self.MainLayout.setContentsMargins(0, 0, 0, 0)
